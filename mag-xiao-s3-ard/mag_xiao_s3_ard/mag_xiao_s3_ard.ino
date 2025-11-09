@@ -1,3 +1,9 @@
+/*
+ * mag_xiao_s3_ard.ino — Magnetometer firmware for Seeed XIAO ESP32S3
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2020-2025 David Witten
+ */
 #include <Arduino.h>
 #include <Wire.h>
 #include <ArduinoJson.h>
