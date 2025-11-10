@@ -38,15 +38,32 @@ this_dir = os.path.abspath(os.path.dirname(__file__))
 repo_root = os.path.abspath(os.path.join(this_dir, '..', '..'))
 doxyfile_path = os.path.join(repo_root, 'Doxyfile')
 doxygen_out = os.path.join(repo_root, 'docs', 'doxygen')
+xml_dir = os.path.join(doxygen_out, 'xml')
 
+# Logging helper for nicer messages on RTD/local
+try:
+    from sphinx.util import logging as sphinx_logging
+    logger = sphinx_logging.getLogger(__name__)
+except Exception:  # Fallback if Sphinx logging isn't available yet
+    class _Logger:
+        def warning(self, *a, **k):
+            print('[docs] WARNING:', *a)
+    logger = _Logger()
+
+# Attempt to run Doxygen if available; ignore failures so local builds still work
 if os.path.exists(doxyfile_path):
     try:
         subprocess.run(['doxygen', doxyfile_path], check=False)
-    except Exception:
-        # Silently ignore in local builds without doxygen
-        pass
+    except Exception as e:
+        logger.warning('Doxygen invocation failed (%s); proceeding without API docs.', e)
 
-breathe_projects = {
-    'mag-xiao-s3': os.path.join(doxygen_out, 'xml')
-}
-breathe_default_project = 'mag-xiao-s3'
+# Configure Breathe only if the XML output exists
+if os.path.exists(os.path.join(xml_dir, 'index.xml')):
+    breathe_projects = {
+        'mag-xiao-s3': xml_dir,
+    }
+    breathe_default_project = 'mag-xiao-s3'
+else:
+    # No XML available: skip API pages to avoid build errors on RTD/local
+    logger.warning('Doxygen XML not found at %s; API reference will be skipped.', xml_dir)
+    exclude_patterns.append('api.rst')

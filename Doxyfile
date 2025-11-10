@@ -8,7 +8,7 @@ OUTPUT_DIRECTORY       = docs/doxygen
 CREATE_SUBDIRS         = NO
 
 # Input
-INPUT                  = mag-xiao-s3-ard/mag_xiao_s3_ard 
+INPUT                  = src/mag_xiao_s3
 INPUT_RECURSIVE        = YES
 FILE_PATTERNS          = *.h \
                          *.hpp \
@@ -44,7 +44,7 @@ GENERATE_XML           = YES
 XML_OUTPUT             = xml
 
 # Dot
-HAVE_DOT               = YES
+HAVE_DOT               = NO
 DOT_NUM_THREADS        = 2
 CALL_GRAPH             = NO
 CALLER_GRAPH           = NO

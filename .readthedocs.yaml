@@ -1,6 +1,5 @@
-# SPDX-License-Identifier: GPL-3.0-or-later
-# Read the Docs configuration file
-# See https://docs.readthedocs.io/en/stable/config-file/v2.html
+# Read the Docs configuration
+# See: https://docs.readthedocs.io/en/stable/config-file/v2.html
 
 version: 2
 
@@ -8,8 +7,6 @@ build:
   os: ubuntu-24.04
   tools:
     python: "3.12"
-    # Ensure doxygen is available to build API XML
-    # RTD has limited apt support via "apt_packages" at top-level
   apt_packages:
     - doxygen
 
@@ -19,5 +16,3 @@ sphinx:
 python:
   install:
     - requirements: docs/requirements.txt
-
-# Keep the default formats (HTML).
